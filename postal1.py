@@ -24,8 +24,15 @@ fields = ['postal_code', 'country_code', 'latitude', 'longitude', 'city', 'state
 data = response.json()
 results = data['results'][f'{zipcode}']
 
+
 for result in results:
     file_exists = os.path.isfile('locations.csv')
+    if not os.path.isfile('locations.csv'):
+        # create file if it doesn't exist
+        with open('locations.csv', mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(fields)
+            print("locations.csv file created.")
     # write the data to a CSV file
     with open('locations.csv', mode='a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fields)
